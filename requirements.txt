@@ -1,0 +1,34 @@
+# System Information Collection Requirements
+# ============================================
+
+# Core dependencies
+psutil>=5.9.0              # For CPU, RAM, and disk information
+
+# Database
+sqlalchemy>=1.4.0          # ORM and database abstraction
+pyodbc>=4.0.0             # SQL Server connection (Windows)
+# mysql-connector-python>=8.0.0  # MySQL support (uncomment if using MySQL)
+# psycopg2-binary>=2.9.0         # PostgreSQL support (uncomment if using PostgreSQL)
+
+# GPU Detection
+gpu-stat>=0.6.0            # GPU information (may need alternative for some systems)
+# GPUtil>=1.4.0            # Alternative GPU detection
+
+# Logging and utilities
+python-dotenv>=0.19.0      # Environment variable management
+
+# Development dependencies (optional)
+# pytest>=6.2.0            # Testing framework
+# black>=21.0              # Code formatting
+# flake8>=3.9.0            # Linting
+# pylint>=2.8.0            # Code analysis
+
+# Note: Windows-specific:
+# - pywin32: May be needed for Windows-specific system info
+# - wmi: For advanced Windows hardware detection (pip install wmi)
+
+# To install all requirements:
+# pip install -r requirements.txt
+
+# To install development requirements:
+# pip install -r requirements.txt pytest black flake8 pylint

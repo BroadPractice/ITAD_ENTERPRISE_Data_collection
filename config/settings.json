@@ -1,0 +1,23 @@
+{
+    "database": {
+        "type": "sqlite",
+        "connection_string": "../data/systems.db",
+        "comment": "Change to 'mssql' for SQL Server, 'mysql' for MySQL, 'postgresql' for PostgreSQL"
+    },
+    "logging": {
+        "level": "INFO",
+        "log_file": "../logs/application.log",
+        "comment": "Log levels: DEBUG, INFO, WARNING, ERROR, CRITICAL"
+    },
+    "data": {
+        "directory": "../data",
+        "retention_days": 365,
+        "comment": "How long to keep local JSON files before cleanup"
+    },
+    "collection": {
+        "collect_gpu": true,
+        "collect_network": true,
+        "collect_storage_details": true,
+        "comment": "Toggle collection of specific hardware categories"
+    }
+}
