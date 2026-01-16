@@ -28,71 +28,53 @@ EXAMPLE OUTPUT:
         ...
     }
 """
-
+import psutil
 import platform
 import socket
 # Additional imports will be added when dependencies are installed
 
 
-class SystemInfoCollector:
-    """
-    Collects comprehensive system information from the host machine.
+class SystemInfoCollector:  # Main class to collect system information
     
-    TODO: Implement methods for each hardware category
-    """
-    
-    def __init__(self):
+    def __init__(self): 
         """Initialize the system information collector."""
         self.os_info = platform.system()
         self.hostname = socket.gethostname()
     
-    def get_cpu_info(self):
-        """
-        TODO: Retrieve CPU information
-        Returns: dict with CPU model, cores, threads, frequency, etc.
-        """
-        pass
+    def get_cpu_info(self): # Implemented function to get CPU info
+        self.gpu_info = platform.processor()
+        return self.gpu_info
     
-    def get_gpu_info(self):
-        """
-        TODO: Retrieve GPU information
-        Returns: dict or list of dicts with GPU models, memory, etc.
-        """
-        pass
-    
-    def get_ram_info(self):
-        """
-        TODO: Retrieve RAM information
-        Returns: dict with total, available, used RAM
-        """
-        pass
-    
-    def get_storage_info(self):
-        """
-        TODO: Retrieve storage information
-        Returns: list of dicts with drive info (capacity, free space, type)
-        """
-        pass
-    
-    def get_network_info(self):
-        """
-        TODO: Retrieve network information
-        Returns: dict with network adapters, IP addresses, MAC addresses
-        """
-        pass
-    
-    def get_system_info(self):
-        """
-        TODO: Retrieve general system information
-        Returns: dict with OS, hostname, uptime, etc.
-        """
-        pass
-    
-    def collect_all(self):
-        """
-        Collect all system information and return as a unified dictionary.
+    def get_gpu_info(self): # Implemented function to get GPU info
+        self.gpu_info = platform.machine()
+        return self.gpu_info
         
-        TODO: Implement to call all get_* methods and combine results
-        Returns: dict with complete system information
-        """
-        pass
+    
+    def get_ram_info(self): # Implemented function to get RAM info
+        self.ram_info = psutil.virtual_memory()
+        return self.ram_info
+    
+    def get_storage_info(self): # Implemented function to get storage info
+        self.storage_info = psutil.disk_partitions()
+        return self.storage_info
+        
+    # def get_network_info(self): # Unneccessary function
+    #     """
+    #     TODO: Retrieve network information
+    #     Returns: dict with network adapters, IP addresses, MAC addresses
+    #     """
+    #     pass
+    
+    def get_system_info(self): # Implemented function to get general system info
+        self.general_info = platform.uname()
+        return self.general_info
+    
+    def collect_all(self):  # Implemented function to call all info functions
+        full_info = {}
+        full_info["cpu"] = self.get_cpu_info()
+        full_info["gpu"] = self.get_gpu_info()
+        full_info["ram"] = self.get_ram_info()
+        full_info["storage"] = self.get_storage_info()
+        full_info["network"] = self.get_network_info()
+        full_info["system"] = self.get_system_info()
+        return full_info

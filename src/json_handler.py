@@ -46,7 +46,7 @@ class JSONHandler:
     def save_system_info(self, system_data, filename=None):
         """
         Save system information to a JSON file.
-        
+
         TODO: Implement JSON serialization with timestamp
         
         Args:
@@ -56,7 +56,15 @@ class JSONHandler:
         Returns:
             str: Path to saved file
         """
-        pass
+        self.system_data = self.append_timestamp(system_data)
+        self.system_data = json.loads(json.dumps(self.system_data, default=str))
+        if filename is None:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"system_info_{timestamp}.json"
+        else:
+            filename = f"{filename}.json"
+
+        return str(self.data_dir / filename)
     
     def load_system_info(self, filename):
         """
@@ -74,7 +82,11 @@ class JSONHandler:
             FileNotFoundError: If file doesn't exist
             json.JSONDecodeError: If file is not valid JSON
         """
-        pass
+        file_name = self.data_dir / filename
+        with open(file_name, 'r') as file:
+            data = json.load(file)
+
+        return data
     
     def append_timestamp(self, data):
         """
@@ -88,21 +100,25 @@ class JSONHandler:
         Returns:
             dict: Data with added timestamp
         """
-        pass
+        time_stamp = datetime.now().isoformat()
+        data['timestamp'] = time_stamp
+        return data
     
     def validate_json_structure(self, data):
         """
-        Validate that the system data has the expected JSON structure.
-        
-        TODO: Implement validation against expected schema
-        
+        Validate that the system data has the expected JSON structure.        
         Args:
             data (dict): Data to validate
         
         Returns:
             bool: True if valid, False otherwise
         """
-        pass
+        key_expected = {'cpu', 'memory', 'disk', 'timestamp'}
+        if not isinstance(data, dict):
+            return False
+        else:
+            return key_expected.issubset(data.keys())
+
     
     def custom_json_encoder(self):
         """
@@ -112,4 +128,10 @@ class JSONHandler:
         Returns:
             json.JSONEncoder: Custom encoder class
         """
-        pass
+        class CustomEncoder(json.JSONEncoder):
+            def default(self, obj):
+                if isinstance(obj, datetime):
+                    return obj.isoformat()
+                return super().default(obj)
+        
+        return CustomEncoder
